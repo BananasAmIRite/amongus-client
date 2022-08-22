@@ -1,16 +1,19 @@
 import { ClientAmongusPayloadType, ClientMessageType, SerializedPlayer, ServerMessageType } from 'amongus-types';
-import { Socket } from 'socket.io-client';
-import AmongusGame from './AmongusGame';
+import Amongus from './Amongus';
+import AmongusGame from './game/AmongusGame';
+import AmongusGameScreen from './screens/AmongusGameScreen';
+import { AmongusSocket } from './types/types';
 
 export default class AmongusClient {
   private playerUuid!: string;
   //   private game: AmongusGame;
-  public constructor(private socket: Socket) {
+  public constructor(private game: Amongus, private socket: AmongusSocket) {
     socket.on(ServerMessageType.UUID, ({ uuid }) => {
       this.playerUuid = uuid;
     });
-    socket.on(ServerMessageType.ACCEPT_JOIN, ({ selfPlayer }: { selfPlayer: SerializedPlayer }) => {
-      // TODO: load the AmongusGameScreen, which will contain game data in AmongusGame
+    socket.on(ServerMessageType.ACCEPT_JOIN, ({ gameUuid, selfPlayer }) => {
+      const game = new AmongusGame(gameUuid, selfPlayer);
+      this.game.attachScreen(new AmongusGameScreen(game));
     });
   }
 

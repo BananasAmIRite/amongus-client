@@ -1,5 +1,4 @@
 import TextBox from '../attachments/TextBox';
-import Text from '../attachments/Text';
 import Screen from '../Screen';
 import Amongus from '../Amongus';
 import AmongusHomeScreen from './AmongusHomeScreen';

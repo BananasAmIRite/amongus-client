@@ -10,6 +10,7 @@ import AmongusClient from '../AmongusClient';
 import Button from '../attachments/Button';
 import TextBox from '../attachments/TextBox';
 import Screen from '../Screen';
+import { AmongusSocket } from '../types/types';
 
 enum ConnectionStatus {
   CONNECTING,
@@ -18,7 +19,7 @@ enum ConnectionStatus {
 }
 
 export default class AmongusHomeScreen extends Screen {
-  private socket: Socket<ServerAmongusPayloadType, ClientAmongusPayloadType>;
+  private socket: AmongusSocket;
 
   private connectionStatus: ConnectionStatus = ConnectionStatus.CONNECTING;
 
@@ -33,7 +34,7 @@ export default class AmongusHomeScreen extends Screen {
     this.socket.on('connect', () => {
       this.connectionStatus = ConnectionStatus.CONNECTED;
 
-      this.game.setClient(new AmongusClient(this.socket));
+      this.game.setClient(new AmongusClient(this.game, this.socket));
     });
     this.socket.on('connect_error', () => {
       this.connectionStatus = ConnectionStatus.CONNECTING_FAILED;
@@ -53,7 +54,7 @@ export default class AmongusHomeScreen extends Screen {
         padding: 10,
         op: async () => {
           const code = await (
-            await fetch(`http://localhost:3000/newgame?owner=${this.game.getClient().getId()}`)
+            await fetch(`http://localhost:3000/newgame?owner=${this.game.getClient().getId()}`, { method: 'POST' })
           ).text();
 
           this.game.getClient().send(ClientMessageType.JOIN, { uuid: code });

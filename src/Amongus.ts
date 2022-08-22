@@ -1,5 +1,4 @@
 import AmongusClient from './AmongusClient';
-import AmongusGame from './AmongusGame';
 import Screen from './Screen';
 import ServerPromptScreen from './screens/ServerPromptScreen';
 
