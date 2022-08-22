@@ -8,12 +8,12 @@ import { Socket } from 'socket.io-client';
 
 type Method<T> = (a: T) => void;
 
-type ServerMap = {
+export type ServerListenerMap = {
   [Property in ServerMessageType]: Method<ServerAmongusPayloadType[Property]>;
 };
 
-type ClientMap = {
+export type ClientListenerMap = {
   [Property in ClientMessageType]: Method<ClientAmongusPayloadType[Property]>;
 };
 
-export type AmongusSocket = Socket<ServerMap, ClientMap>;
+export type AmongusSocket = Socket<ServerListenerMap, ClientListenerMap>;

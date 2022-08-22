@@ -2,7 +2,7 @@ import { ClientAmongusPayloadType, ClientMessageType, SerializedPlayer, ServerMe
 import Amongus from './Amongus';
 import AmongusGame from './game/AmongusGame';
 import AmongusGameScreen from './screens/AmongusGameScreen';
-import { AmongusSocket } from './types/types';
+import { AmongusSocket, ServerListenerMap } from './types/types';
 
 export default class AmongusClient {
   private playerUuid!: string;
@@ -12,7 +12,7 @@ export default class AmongusClient {
       this.playerUuid = uuid;
     });
     socket.on(ServerMessageType.ACCEPT_JOIN, ({ gameUuid, selfPlayer }) => {
-      const game = new AmongusGame(gameUuid, selfPlayer);
+      const game = new AmongusGame(gameUuid, this, selfPlayer);
       this.game.attachScreen(new AmongusGameScreen(game));
     });
   }
@@ -28,5 +28,9 @@ export default class AmongusClient {
 
   public getId() {
     return this.playerUuid;
+  }
+
+  public on<T extends ServerMessageType>(evt: T, listener: ServerListenerMap[T]) {
+    this.socket.on(evt, listener as any); // bruh ok this is stupid
   }
 }

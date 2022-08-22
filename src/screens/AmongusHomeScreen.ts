@@ -23,7 +23,7 @@ export default class AmongusHomeScreen extends Screen {
 
   private connectionStatus: ConnectionStatus = ConnectionStatus.CONNECTING;
 
-  public constructor(private game: Amongus, url: string, displayName: string) {
+  public constructor(private game: Amongus, private url: string, displayName: string) {
     super();
     this.socket = io(url, {
       query: {
@@ -54,7 +54,7 @@ export default class AmongusHomeScreen extends Screen {
         padding: 10,
         op: async () => {
           const code = await (
-            await fetch(`http://localhost:3000/newgame?owner=${this.game.getClient().getId()}`, { method: 'POST' })
+            await fetch(`${this.url}/newgame?owner=${this.game.getClient().getId()}`, { method: 'POST' })
           ).text();
 
           this.game.getClient().send(ClientMessageType.JOIN, { uuid: code });

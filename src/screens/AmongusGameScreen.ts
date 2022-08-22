@@ -17,8 +17,9 @@ export default class AmongusGameScreen extends Screen {
     );
   }
   onRender(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = 'gray';
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // ctx.fillStyle = 'gray';
+    // ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    this.game.getRenderer().render(ctx);
   }
   onDetach(elem: HTMLCanvasElement): void {}
 }
