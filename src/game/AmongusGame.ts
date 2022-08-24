@@ -49,6 +49,13 @@ export default class AmongusGame {
         deadBodyPosition: deathPosition,
       });
     });
+    this.client.on(ServerMessageType.PLAYER_SET_VISIBLE, ({ playerId, visibility }) => {
+      const p = this.getPlayer(playerId);
+      if (!p) return;
+      p.updateState({
+        visible: visibility,
+      });
+    });
     this.client.on(ServerMessageType.GAME_END, ({ winner }) => {
       this.end(winner);
     });

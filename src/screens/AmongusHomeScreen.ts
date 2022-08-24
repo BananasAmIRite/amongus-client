@@ -54,7 +54,7 @@ export default class AmongusHomeScreen extends Screen {
         padding: 10,
         op: async () => {
           const code = await (
-            await fetch(`${this.url}/newgame?owner=${this.game.getClient().getId()}`, { method: 'POST' })
+            await fetch(`http://${this.url}/newgame?owner=${this.game.getClient().getId()}`, { method: 'POST' })
           ).text();
 
           this.game.getClient().send(ClientMessageType.JOIN, { uuid: code });
