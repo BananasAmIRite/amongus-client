@@ -32,8 +32,7 @@ export default class AmongusGame {
       this.players.push(new AmongusPlayer(this, player));
     });
     this.client.on(ServerMessageType.LOAD_MAP, ({ resource }) => {
-      // TODO: load map
-      this.mapLoader.setMap(resource);
+      this.mapLoader.setMap(`./assets/${resource}`);
     });
     this.client.on(ServerMessageType.PLAYER_LEAVE, ({ playerId }) => {
       this.removePlayer(playerId);
@@ -87,6 +86,18 @@ export default class AmongusGame {
 
   public getClient() {
     return this.client;
+  }
+
+  public getSelfPlayer() {
+    return this.selfPlayer;
+  }
+
+  public getMapLoader() {
+    return this.mapLoader;
+  }
+
+  public getPlayers() {
+    return this.players;
   }
 
   private end(winner: GameRole) {

@@ -42,4 +42,8 @@ export default class AmongusPlayer {
   public getId() {
     return this.id;
   }
+
+  public getPosition() {
+    return this.position;
+  }
 }
