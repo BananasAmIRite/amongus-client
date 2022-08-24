@@ -3,14 +3,20 @@ import { Server } from 'http';
 import AmongusClient from '../AmongusClient';
 import AmongusGameRenderer from './AmongusGameRenderer';
 import AmongusPlayer from './AmongusPlayer';
+import AmongusMapLoader from './map/AmongusMapLoader';
 
 export default class AmongusGame {
   private renderer: AmongusGameRenderer;
+
+  private mapLoader: AmongusMapLoader;
+
   private players: AmongusPlayer[];
 
   private selfPlayer: AmongusPlayer;
   public constructor(private gameUuid: string, private client: AmongusClient, selfPlayer: SerializedPlayer) {
     this.renderer = new AmongusGameRenderer(this);
+
+    this.mapLoader = new AmongusMapLoader();
 
     const p = new AmongusPlayer(this, selfPlayer);
     this.players = [p];
@@ -27,6 +33,7 @@ export default class AmongusGame {
     });
     this.client.on(ServerMessageType.LOAD_MAP, ({ resource }) => {
       // TODO: load map
+      this.mapLoader.setMap(resource);
     });
     this.client.on(ServerMessageType.PLAYER_LEAVE, ({ playerId }) => {
       this.removePlayer(playerId);
