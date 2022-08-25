@@ -25,6 +25,7 @@ export default class AmongusHomeScreen extends Screen {
 
   public constructor(private game: Amongus, private url: string, displayName: string) {
     super();
+
     this.socket = io(url, {
       query: {
         displayName,

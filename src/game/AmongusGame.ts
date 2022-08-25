@@ -13,6 +13,9 @@ export default class AmongusGame {
   private players: AmongusPlayer[];
 
   private selfPlayer: AmongusPlayer;
+
+  private keys!: { [key: string]: boolean };
+
   public constructor(private gameUuid: string, private client: AmongusClient, selfPlayer: SerializedPlayer) {
     this.renderer = new AmongusGameRenderer(this);
 
@@ -24,6 +27,20 @@ export default class AmongusGame {
     this.selfPlayer = p;
 
     this.setupListeners();
+
+    this.setupKeyListeners();
+  }
+
+  private setupKeyListeners() {
+    this.keys = {};
+    window.addEventListener('keydown', (e) => {
+      e.preventDefault();
+      this.keys[e.key] = true;
+    });
+    window.addEventListener('keyup', (e) => {
+      e.preventDefault();
+      this.keys[e.key] = false;
+    });
   }
 
   private setupListeners() {
@@ -98,6 +115,10 @@ export default class AmongusGame {
 
   public getPlayers() {
     return this.players;
+  }
+
+  public getKeysDown() {
+    return this.keys;
   }
 
   private end(winner: GameRole) {

@@ -1,4 +1,6 @@
+import { CharacterType } from 'amongus-types';
 import AmongusGame from './AmongusGame';
+import getImage from './Characters';
 
 export default class AmongusGameRenderer {
   public constructor(private game: AmongusGame) {}
@@ -14,11 +16,31 @@ export default class AmongusGameRenderer {
       ctx.canvas.width / 2 - selfPlayerPosition.x,
       ctx.canvas.height / 2 - selfPlayerPosition.y
     );
+
     // TODO: render everything else idk
 
     for (const player of this.game.getPlayers()) {
       // TODO: make the actual player assets and stuff; prob pass the player asset to the ACCEPT_JOIN and PLAYER_JOIN events
       // render them !!
+      // const plrImage = getImage(player.getCharacterType(), 'rightface');
+      if (!player.isVisible() && player.getId() !== this.game.getSelfPlayer().getId()) return;
+      ctx.fillStyle = (player.getCharacterType() ?? CharacterType.RED).toString();
+
+      ctx.fillRect(
+        player.getPosition().x - selfPlayerPosition.x + ctx.canvas.width / 2,
+        player.getPosition().y - selfPlayerPosition.y + ctx.canvas.height / 2,
+        65,
+        100
+      );
+
+      // ctx.drawImage(
+      //   plrImage,
+      //   player.getPosition().x - selfPlayerPosition.x + ctx.canvas.width / 2,
+      //   player.getPosition().y - selfPlayerPosition.y + ctx.canvas.height / 2
+      // );
     }
+
+    // handle event controls
+    this.game.getSelfPlayer().checkPositionUpdate();
   }
 }

@@ -13,12 +13,13 @@ export default class AmongusMapLoader {
   public setMap(map: HTMLImageElement | string): void | Promise<void> {
     // if its an HTMLImageElement, assume its already been loaded
     if (typeof map === 'string') {
-      const elem = new HTMLImageElement();
+      const elem = document.createElement('img');
       return new Promise((resolve) => {
         this.status = MapLoaderStatus.LOADING;
         elem.onload = () => {
           this.map = elem;
           this.status = MapLoaderStatus.IDLE;
+          resolve();
         };
         elem.src = map;
       });
@@ -28,6 +29,6 @@ export default class AmongusMapLoader {
   }
 
   public getMap() {
-    return this.map ?? new HTMLImageElement();
+    return this.map ?? document.createElement('img');
   }
 }

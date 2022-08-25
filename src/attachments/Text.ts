@@ -66,8 +66,6 @@ export default class Text extends ScreenAttachment {
   }
 
   public setColor(color: string) {
-    console.log(color);
-
     this.textColor = color;
   }
 }
