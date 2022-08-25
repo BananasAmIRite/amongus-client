@@ -11,11 +11,15 @@ export default class AmongusPlayer {
   private visible!: boolean;
   private characterType!: CharacterType;
 
+  private lastFacingPosition: 'leftface' | 'rightface' = 'rightface';
+
   public constructor(private game: AmongusGame, playerData: SerializedPlayer) {
     this.updateState(playerData);
   }
 
   public updateState(state: Partial<SerializedPlayer>) {
+    if (state.position) this.updateFacingPosition(this.position, state.position);
+
     this.position = state.position ?? this.position;
     this.isDead = state.isDead ?? this.isDead;
     this.deadBodyLocation = state.deadBodyPosition ?? this.deadBodyLocation;
@@ -39,5 +43,14 @@ export default class AmongusPlayer {
 
   public isVisible() {
     return this.visible;
+  }
+
+  private updateFacingPosition(curPos: Location, newPos: Location) {
+    this.lastFacingPosition =
+      newPos.x < curPos.x ? 'leftface' : newPos.x > curPos.x ? 'rightface' : this.lastFacingPosition;
+  }
+
+  public getFacingPosition() {
+    return this.lastFacingPosition;
   }
 }
