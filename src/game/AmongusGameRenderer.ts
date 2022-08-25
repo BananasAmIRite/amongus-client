@@ -22,7 +22,7 @@ export default class AmongusGameRenderer {
     for (const player of this.game.getPlayers()) {
       // TODO: make the actual player assets and stuff; prob pass the player asset to the ACCEPT_JOIN and PLAYER_JOIN events
       // render them !!
-      // const plrImage = getImage(player.getCharacterType(), 'rightface');
+      // const plrImage = getImage(player.getCharacterType(), plr);
       if (player.getId() === this.game.getSelfPlayer().getId()) continue;
       if (!player.isVisible()) continue;
       ctx.fillStyle = (player.getCharacterType() ?? CharacterType.RED).toString();
