@@ -23,7 +23,8 @@ export default class AmongusGameRenderer {
       // TODO: make the actual player assets and stuff; prob pass the player asset to the ACCEPT_JOIN and PLAYER_JOIN events
       // render them !!
       // const plrImage = getImage(player.getCharacterType(), 'rightface');
-      if (!player.isVisible() && player.getId() !== this.game.getSelfPlayer().getId()) return;
+      if (player.getId() === this.game.getSelfPlayer().getId()) continue;
+      if (!player.isVisible()) continue;
       ctx.fillStyle = (player.getCharacterType() ?? CharacterType.RED).toString();
 
       ctx.fillRect(
@@ -40,6 +41,8 @@ export default class AmongusGameRenderer {
       // );
     }
 
+    ctx.fillStyle = (this.game.getSelfPlayer().getCharacterType() ?? CharacterType.RED).toString();
+    ctx.fillRect(ctx.canvas.width / 2, ctx.canvas.height / 2, 65, 100);
     // handle event controls
     this.game.getSelfPlayer().checkPositionUpdate();
   }

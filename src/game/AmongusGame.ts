@@ -1,8 +1,8 @@
 import { GameRole, SerializedPlayer, ServerMessageType } from 'amongus-types';
-import { Server } from 'http';
 import AmongusClient from '../AmongusClient';
 import AmongusGameRenderer from './AmongusGameRenderer';
 import AmongusPlayer from './AmongusPlayer';
+import AmongusSelfPlayer from './AmongusSelfPlayer';
 import AmongusMapLoader from './map/AmongusMapLoader';
 
 export default class AmongusGame {
@@ -12,7 +12,7 @@ export default class AmongusGame {
 
   private players: AmongusPlayer[];
 
-  private selfPlayer: AmongusPlayer;
+  private selfPlayer: AmongusSelfPlayer;
 
   private keys!: { [key: string]: boolean };
 
@@ -24,7 +24,7 @@ export default class AmongusGame {
     const p = new AmongusPlayer(this, selfPlayer);
     this.players = [p];
 
-    this.selfPlayer = p;
+    this.selfPlayer = new AmongusSelfPlayer(this, p);
 
     this.setupListeners();
 
